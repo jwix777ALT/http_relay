@@ -16,6 +16,8 @@ WiFiManager wm;
 ESP8266WebServer server(80);
 
 const int led = D1;
+const int power_pin = D2;
+const int reset_button = D7;
 
 void handleRoot() {
   digitalWrite(led, HIGH);
@@ -26,13 +28,22 @@ void handleRoot() {
 
 void setup(void) {
   pinMode(led, OUTPUT);
+  pinMode(power_pin,OUTPUT);
+  pinMode(reset_button,INPUT);
   Serial.begin(115200);
+  digitalWrite(power_pin,HIGH);
+  Serial.println(" ");
+  if(digitalRead(reset_button) == HIGH){
+    Serial.println("Config mode");
+    wm.startConfigPortal("Zamok_ot_VC_snova_sdoh", "very_hard_password"); 
+    
+  }
   Serial.println("ESP MAC address:");
   Serial.print(WiFi.macAddress());
   bool res;
   // res = wm.autoConnect(); // auto generated AP name from chipid
   // res = wm.autoConnect("AutoConnectAP"); // anonymous ap
-  res = wm.autoConnect("Zamok_ot_VC_snova_sdoh", "");  // password protected ap
+  res = wm.autoConnect("Zamok_ot_VC_snova_sdoh", "very_hard_password");  // password protected ap
 
   if (!res) {
     Serial.println("Failed to connect");
