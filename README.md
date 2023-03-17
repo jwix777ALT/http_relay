@@ -4,4 +4,4 @@ Pinout:
 
 D1 - relay pin
 
-D7 - Reset setting button (will be added)
+D7 - Reset settings button
