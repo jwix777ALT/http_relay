@@ -5,13 +5,6 @@
 #include <ESP8266WebServer.h>
 #include <ESP8266mDNS.h>
 
-#ifndef STASSID
-#define STASSID "cadr"
-#define STAPSK "socketswitch"
-#endif
-
-const char* ssid = STASSID;
-const char* password = STAPSK;
 WiFiManager wm;
 ESP8266WebServer server(80);
 
@@ -35,16 +28,13 @@ void setup(void) {
   Serial.println(" ");
   if(digitalRead(reset_button) == HIGH){
     Serial.println("Config mode");
-    wm.startConfigPortal("Zamok_ot_VC_snova_sdoh", "very_hard_password"); 
+    wm.startConfigPortal("Zamok_ot_VC_config_mode", "very_hard_password"); 
     
   }
   Serial.println("ESP MAC address:");
   Serial.print(WiFi.macAddress());
   bool res;
-  // res = wm.autoConnect(); // auto generated AP name from chipid
-  // res = wm.autoConnect("AutoConnectAP"); // anonymous ap
-  res = wm.autoConnect("Zamok_ot_VC_snova_sdoh", "very_hard_password");  // password protected ap
-
+  res = wm.autoConnect("Zamok_ot_VC_sdoh", "very_hard_password");  // password protected
   if (!res) {
     Serial.println("Failed to connect");
     // ESP.restart();
